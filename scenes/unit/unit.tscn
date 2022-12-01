@@ -1,0 +1,121 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://scenes/shadow_sprite/shadow_sprite.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/unit_blue.png" type="Texture" id=2]
+[ext_resource path="res://scenes/unit/unit.gd" type="Script" id=3]
+[ext_resource path="res://resources/units/player.tres" type="Resource" id=4]
+[ext_resource path="res://assets/unit_hurt.png" type="Texture" id=5]
+[ext_resource path="res://assets/sounds/land.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sounds/drop_002.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/sounds/drop_003.ogg" type="AudioStream" id=8]
+[ext_resource path="res://assets/sounds/pluck_002.ogg" type="AudioStream" id=9]
+[ext_resource path="res://assets/sounds/error_003.ogg" type="AudioStream" id=10]
+[ext_resource path="res://assets/sounds/kiss.wav" type="AudioStream" id=11]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 5, 5 )
+
+[sub_resource type="Curve" id=3]
+min_value = -360.0
+max_value = 360.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, -360 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 0.509091 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 53.0
+
+[node name="Unit" type="KinematicBody2D"]
+collision_mask = 131
+script = ExtResource( 3 )
+data = ExtResource( 4 )
+
+[node name="ShadowSprite" parent="." instance=ExtResource( 1 )]
+z_index = 1
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource( 1 )
+
+[node name="Dust" type="CPUParticles2D" parent="."]
+z_index = -1
+local_coords = false
+texture = ExtResource( 2 )
+gravity = Vector2( 0, 0 )
+angle = 360.0
+angle_random = 1.0
+angle_curve = SubResource( 3 )
+scale_amount_curve = SubResource( 2 )
+
+[node name="DashTween" type="Tween" parent="."]
+
+[node name="TiltTween" type="Tween" parent="."]
+
+[node name="CutsceneTween" type="Tween" parent="."]
+
+[node name="DashTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="KnockbackTimer" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+
+[node name="HurtSprite" type="Sprite" parent="."]
+visible = false
+z_index = 2
+texture = ExtResource( 5 )
+
+[node name="InvincibleTimer" type="Timer" parent="."]
+wait_time = 2.1
+one_shot = true
+
+[node name="BlinkTimer" type="Timer" parent="."]
+wait_time = 0.15
+
+[node name="LandSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+volume_db = -6.0
+
+[node name="OrbitArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OrbitArea"]
+visible = false
+shape = SubResource( 4 )
+
+[node name="MagicSpawnTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="MagicFireTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="DelayTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="DashSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+volume_db = -6.0
+
+[node name="BounceSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
+volume_db = -6.0
+
+[node name="MagicSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 9 )
+volume_db = -6.0
+
+[node name="PlayerHurtSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -6.0
+
+[node name="KissSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+volume_db = -6.0
+
+[connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
+[connection signal="timeout" from="InvincibleTimer" to="." method="_on_InvincibleTimer_timeout"]
+[connection signal="timeout" from="BlinkTimer" to="." method="_on_BlinkTimer_timeout"]
+[connection signal="timeout" from="MagicSpawnTimer" to="." method="_on_MagicSpawnTimer_timeout"]
+[connection signal="timeout" from="MagicFireTimer" to="." method="_on_MagicFireTimer_timeout"]

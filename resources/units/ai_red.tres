@@ -1,0 +1,31 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://scenes/unit/unit_data.gd" type="Script" id=1]
+[ext_resource path="res://assets/unit_orange.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+player = false
+sprite = ExtResource( 2 )
+scale = 1.0
+max_hp = 3
+vampirism = 0.0
+run_speed = 100
+dashes = true
+dash_time = 1.0
+dash_min_speed = 100
+dash_max_speed = 200
+dash_chase_prob = 0.5
+dash_chase_spread = 0.785398
+dash_slide = 0.0
+saws = false
+saw_speed = 100
+saw_magnetism = 0.0
+saw_confusion = 0.0
+magic = false
+magic_amount = 3
+magic_spawn_time = 0.5
+magic_fire_time = 1.0
+magic_angle_speed = 3.14159
+magic_pause_time = 0.5
+kisses = false

@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/shadow_sprite/shadow_sprite.gd" type="Script" id=1]
+
+[node name="ShadowSprite" type="Node2D"]
+script = ExtResource( 1 )
+height = 0
+
+[node name="Buffer" type="Node" parent="."]
+
+[node name="Shadow" type="Sprite" parent="Buffer"]
+modulate = Color( 0, 0, 0, 0.427451 )
+position = Vector2( 1, 1 )
+z_index = -1
+z_as_relative = false
+
+[node name="Sprite" type="Sprite" parent="."]
+
+[node name="FlashTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]

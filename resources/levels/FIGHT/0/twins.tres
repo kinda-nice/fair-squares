@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://scripts/save_data.gd" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+data = {
+"units": [ {
+"data_name": "ai_red",
+"position": Vector2( 40, 88 )
+}, {
+"data_name": "ai_red",
+"position": Vector2( 184, 88 )
+} ]
+}

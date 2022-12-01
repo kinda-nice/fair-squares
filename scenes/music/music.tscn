@@ -1,0 +1,48 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://assets/music/98.mp3" type="AudioStream" id=1]
+[ext_resource path="res://assets/music/99.mp3" type="AudioStream" id=2]
+[ext_resource path="res://scenes/music/music.gd" type="Script" id=3]
+[ext_resource path="res://assets/music/97.mp3" type="AudioStream" id=4]
+[ext_resource path="res://assets/sounds/TAPE STOP_15.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sounds/BUTTON_12.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sounds/REMOVE_CASSETTE_07.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/sounds/LOAD_CASSETTE_08.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/music/96.mp3" type="AudioStream" id=9]
+
+[node name="Music" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="FightSong" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+volume_db = -9.0
+
+[node name="BossSong" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -9.0
+
+[node name="TutSong" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -9.0
+
+[node name="WinSong" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -9.0
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="TapeStop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -6.0
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -6.0
+
+[node name="Start" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -6.0
+
+[node name="Load" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = -6.0

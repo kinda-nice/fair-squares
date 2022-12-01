@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/wipe/wipe.gd" type="Script" id=1]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec2 pos;
+uniform float circle_size : hint_range(0.0, 1.05);
+uniform float screen_width;
+uniform float screen_height;
+
+void fragment() {
+	float ratio = screen_width / screen_height;
+	float dist = distance(pos, vec2(mix(pos.x, UV.x, ratio), UV.y));
+	COLOR.a = step(circle_size * 2.0, dist);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/pos = Vector2( 0, 0 )
+shader_param/circle_size = 1.05
+shader_param/screen_width = 320.0
+shader_param/screen_height = 240.0
+
+[node name="Wipe" type="ColorRect"]
+material = SubResource( 2 )
+margin_right = 320.0
+margin_bottom = 240.0
+rect_min_size = Vector2( 320, 240 )
+color = Color( 0.380392, 0.0941176, 0.317647, 1 )
+script = ExtResource( 1 )
+
+[node name="Tween" type="Tween" parent="."]

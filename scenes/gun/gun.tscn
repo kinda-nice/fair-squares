@@ -1,0 +1,133 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://scenes/gun/gun.gd" type="Script" id=1]
+[ext_resource path="res://assets/reload_ui.png" type="Texture" id=2]
+[ext_resource path="res://assets/reload_slider.png" type="Texture" id=3]
+[ext_resource path="res://assets/sounds/gunshot.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/sounds/reload.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sounds/reload_done.wav" type="AudioStream" id=6]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("ReloadUI/Parent/Slider:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -7, -9 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ReloadUI/Parent:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ReloadUI/Parent/Slider:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -7, -9 ), Vector2( 8, -9 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ReloadUI/Parent:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("ReloadSound")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("ReloadDoneSound")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+
+[node name="Gun" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="FireTimer" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="ReloadUI" type="Node" parent="."]
+
+[node name="Parent" type="Node2D" parent="ReloadUI"]
+visible = false
+
+[node name="BG" type="Sprite" parent="ReloadUI/Parent"]
+position = Vector2( 0, -9 )
+texture = ExtResource( 2 )
+
+[node name="Slider" type="Sprite" parent="ReloadUI/Parent"]
+position = Vector2( -7, -9 )
+texture = ExtResource( 3 )
+
+[node name="ReloadAnim" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 1 )
+anims/reload = SubResource( 2 )
+
+[node name="PreReloadTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="FireSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -6.0
+
+[node name="ReloadSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -6.0
+
+[node name="ReloadDoneSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -6.0
+
+[connection signal="timeout" from="FireTimer" to="." method="_on_FireTimer_timeout"]
+[connection signal="animation_finished" from="ReloadAnim" to="." method="_on_ReloadAnim_animation_finished"]
+[connection signal="timeout" from="PreReloadTimer" to="." method="_on_PreReloadTimer_timeout"]

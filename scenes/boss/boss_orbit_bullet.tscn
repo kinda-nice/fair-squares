@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://scenes/shadow_sprite/shadow_sprite.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/boss_orbit_bullet.png" type="Texture" id=2]
+[ext_resource path="res://scenes/boss/boss_orbit_bullet.gd" type="Script" id=3]
+[ext_resource path="res://assets/sounds/pluck_001.ogg" type="AudioStream" id=4]
+
+[sub_resource type="Curve" id=2]
+min_value = -360.0
+max_value = 360.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, -360 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.181818 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 3.0
+
+[node name="BossOrbitBullet" type="KinematicBody2D"]
+z_index = 1
+collision_layer = 8
+collision_mask = 0
+script = ExtResource( 3 )
+
+[node name="Dust" type="CPUParticles2D" parent="."]
+z_index = -1
+emitting = false
+amount = 16
+lifetime = 0.1
+local_coords = false
+texture = ExtResource( 2 )
+gravity = Vector2( 0, 0 )
+angle = 360.0
+angle_random = 1.0
+angle_curve = SubResource( 2 )
+scale_amount = 2.0
+scale_amount_curve = SubResource( 3 )
+
+[node name="ShadowSprite" parent="." instance=ExtResource( 1 )]
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource( 1 )
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+visible = false
+shape = SubResource( 4 )
+
+[node name="PauseTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="CutsceneTween" type="Tween" parent="."]
+
+[node name="SpawnSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+volume_db = -6.0
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_Hitbox_body_entered"]

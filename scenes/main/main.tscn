@@ -1,0 +1,59 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scenes/level/level.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/wipe/wipe.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/ammo_ui/ammo_ui.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/hp_ui/hp_ui.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/camera/camera.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/world_ui/world_ui.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/main/main.gd" type="Script" id=7]
+[ext_resource path="res://scenes/mouse/mouse.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/music/music.tscn" type="PackedScene" id=9]
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 7 )
+
+[node name="Top" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="Wipe" parent="Top" instance=ExtResource( 2 )]
+mouse_filter = 2
+
+[node name="WorldUI" parent="Top" instance=ExtResource( 6 )]
+visible = false
+
+[node name="Mouse" parent="Top" instance=ExtResource( 8 )]
+
+[node name="BG" type="CanvasLayer" parent="."]
+layer = -2
+
+[node name="BG" type="ColorRect" parent="BG"]
+margin_left = -64.0
+margin_top = -48.0
+margin_right = 384.0
+margin_bottom = 336.0
+color = Color( 0.121569, 0.0627451, 0.164706, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Level" parent="." instance=ExtResource( 1 )]
+position = Vector2( 48, 32 )
+fname = "tutorial"
+world = -1
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="AmmoUI" parent="UI" instance=ExtResource( 3 )]
+position = Vector2( 270, 209 )
+
+[node name="HPUI" parent="UI" instance=ExtResource( 4 )]
+position = Vector2( 64, 208 )
+
+[node name="Music" parent="UI" instance=ExtResource( 9 )]
+position = Vector2( 136, 224 )
+
+[node name="Camera" parent="." instance=ExtResource( 5 )]
+position = Vector2( 160, 120 )
+current = true

@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/shadow_sprite/shadow_sprite.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/bullet_yellow.png" type="Texture" id=2]
+[ext_resource path="res://resources/themes/theme.tres" type="Theme" id=3]
+[ext_resource path="res://scenes/ammo_ui/ammo_ui.gd" type="Script" id=4]
+
+[node name="AmmoUI" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Icon" parent="." instance=ExtResource( 1 )]
+rotation = 1.5708
+texture = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_top = -16.0
+margin_right = 40.0
+margin_bottom = 16.0
+theme = ExtResource( 3 )
+custom_colors/font_color = Color( 0.988235, 0.937255, 0.552941, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "x10"
+align = 1
+valign = 1
